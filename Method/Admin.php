@@ -81,6 +81,8 @@ final class Admin extends MethodForm
         try
         {
             ImportUsers::make()->import($this->gwfdb);
+            ImportPermissions::make()->import($this->gwfdb);
+            ImportAvatars::make()->import($this->gwfdb);
         }
         finally
         {

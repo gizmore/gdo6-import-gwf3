@@ -4,7 +4,7 @@ use GDO\ImportGWF3\MethodImport;
 /**
  * @author gizmore
  */
-final class ImportUsers extends MethodImport
+final class ImportAvatars extends MethodImport
 {
     public function run()
     {

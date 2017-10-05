@@ -28,7 +28,7 @@ final class Module_ImportGWF3 extends GDO_Module
             GDT_Secret::make('gwf3_db_pass')->initial('wechall5'),
             GDT_Secret::make('gwf3_db_name')->initial('wechall5'),
             GDT_Secret::make('gwf3_db_prefix')->initial('wc4_'),
-            GDT_Path::make('gwf3_dbimg_dir')->existingDir(),
+            GDT_Path::make('gwf3_dbimg_dir')->existingDir()->initial('/home/gizmore/ProjectPDT/gwf3/www/dbimg'),
         );
     }
     public function cfgDBHost() { return $this->getConfigVar('gwf3_db_host'); }
@@ -36,5 +36,5 @@ final class Module_ImportGWF3 extends GDO_Module
     public function cfgDBPass() { return $this->getConfigVar('gwf3_db_pass'); }
     public function cfgDBName() { return $this->getConfigVar('gwf3_db_name'); }
     public function cfgDBPrefix() { return $this->getConfigVar('gwf3_db_prefix'); }
-    public function cfgGWF3Path() { return $this->getConfigVar('gwf3_dbimg_dir'); }
+    public function cfgGWF3Path() { return $this->getConfigValue('gwf3_dbimg_dir'); }
 }
