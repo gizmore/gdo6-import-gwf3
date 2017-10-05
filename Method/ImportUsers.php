@@ -4,6 +4,7 @@ use GDO\Core\Logger;
 use GDO\ImportGWF3\MethodImport;
 use GDO\User\GDO_User;
 use GDO\Date\Time;
+use GDO\User\GDT_Gender;
 final class ImportUsers extends MethodImport
 {
     public function run()
@@ -38,7 +39,7 @@ final class ImportUsers extends MethodImport
             round($row['user_level']),
             round($row['user_credits']),
             ($row['user_options']&0x1000)?'text':'html',
-            $row['user_gender'],
+            $this->userGender($row['user_gender']),
             $this->gwfdate($row['user_birthdate']),
             $this->gwfcountry($row['user_countryid']),
             $this->gwflanguage($row['user_langid'], 'en'),
@@ -63,6 +64,15 @@ final class ImportUsers extends MethodImport
         else
         {
             return GDO_User::MEMBER;
+        }
+    }
+    
+    private function userGender(string $gender)
+    {
+        switch($gender)
+        {
+            case GDT_Gender::MALE: case GDT_Gender::FEMALE: return $gender;
+            default: return GDT_Gender::NONE;
         }
     }
     

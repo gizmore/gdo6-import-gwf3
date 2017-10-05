@@ -19,10 +19,10 @@ final class Module_ImportGWF3 extends GDO_Module
     {
         return array(
             GDT_Hostname::make('gwf3_db_host')->initial('localhost'),
-            GDT_Secret::make('gwf3_db_user')->initial('gwf3'),
-            GDT_Secret::make('gwf3_db_pass')->initial('gwf3'),
-            GDT_Secret::make('gwf3_db_name')->initial('gwf3'),
-            GDT_Secret::make('gwf3_db_prefix')->initial('gwf3_'),
+            GDT_Secret::make('gwf3_db_user')->initial('wechall5'),
+            GDT_Secret::make('gwf3_db_pass')->initial('wechall5'),
+            GDT_Secret::make('gwf3_db_name')->initial('wechall5'),
+            GDT_Secret::make('gwf3_db_prefix')->initial('wc4_'),
         );
     }
     
