@@ -5,6 +5,7 @@ use GDO\Form\GDT_Form;
 use GDO\Form\MethodForm;
 use GDO\Form\GDT_Submit;
 use GDO\Form\GDT_AntiCSRF;
+use GDO\DB\Cache;
 use GDO\DB\Database;
 use GDO\ImportGWF3\Module_ImportGWF3;
 use GDO\Core\GDT_Success;
@@ -90,6 +91,7 @@ final class Admin extends MethodForm
         finally
         {
             $this->gdodb();
+            Cache::flush();
         }
     }
 
