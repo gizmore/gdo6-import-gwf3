@@ -7,7 +7,8 @@ use GDO\Form\GDT_Submit;
 use GDO\Form\GDT_AntiCSRF;
 use GDO\DB\Database;
 use GDO\ImportGWF3\Module_ImportGWF3;
-use GDO\Template\Message;
+use GDO\Core\GDT_Success;
+use GDO\Core\GDT_Response;
 
 final class Admin extends MethodForm
 {
@@ -48,7 +49,9 @@ final class Admin extends MethodForm
         ob_end_clean();
 
         # Done
-        return Message::make($content)->add($this->message('msg_gwf3_import_finished'))->add($this->renderPage());
+        return GDT_Response::makeWith(GDT_Success::withHTML($content))->
+            add($this->message('msg_gwf3_import_finished'))->
+            add($this->renderPage());
     }
     
     #################

@@ -2,7 +2,7 @@
 namespace GDO\ImportGWF3;
 use GDO\Core\GDO_Module;
 use GDO\Net\GDT_Hostname;
-use GDO\Type\GDT_Secret;
+use GDO\Core\GDT_Secret;
 use GDO\File\GDT_Path;
 /**
  * Import gwf3 tables into this gdo6 installation.

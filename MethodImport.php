@@ -4,8 +4,6 @@ use GDO\Core\Method;
 use GDO\DB\Database;
 use GDO\Core\GDOException;
 use GDO\Date\Time;
-use GDO\Country\CountryData;
-use GDO\Language\LanguageData;
 use GDO\Language\GDO_Language;
 use GDO\Country\GDO_Country;
 
@@ -61,7 +59,7 @@ abstract class MethodImport extends Method
      * @throws GDOException
      * @return string
      */
-    public function gwfdate(string $gwfdate=null)
+    public function gwfdate($gwfdate=null)
     {
         $sec = $min = $hour = $day = $mon = $year = 0;
         switch (strlen($gwfdate))
@@ -86,7 +84,6 @@ abstract class MethodImport extends Method
         {
             $mapping = $this->gwfCountryMapping();
         }
-        $data = CountryData::getCountries();
         return isset($mapping[$id]) ? $mapping[$id] : null;
     }
 

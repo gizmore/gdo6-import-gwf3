@@ -67,7 +67,7 @@ final class ImportUsers extends MethodImport
         }
     }
     
-    private function userGender(string $gender)
+    private function userGender($gender)
     {
         switch($gender)
         {
