@@ -21,7 +21,7 @@ final class Admin extends MethodForm
     public function execute()
     {
         # Normal form but prepend admin navbar
-        return parent::execute()->pre($this->renderNavBar());
+        return $this->renderNavBar()->add(parent::execute());
     }
 
     public function createForm(GDT_Form $form)
