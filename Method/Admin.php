@@ -14,6 +14,9 @@ use GDO\Core\GDT_Response;
 final class Admin extends MethodForm
 {
     use MethodAdmin;
+    public function getPermission() {}
+    public function isUserRequired() { return false; }
+    public function isTransactional() { return false; }
     
     ############
     ### Form ###
@@ -87,6 +90,7 @@ final class Admin extends MethodForm
             ImportUsers::make()->import($this->gwfdb);
             ImportPermissions::make()->import($this->gwfdb);
             ImportAvatars::make()->import($this->gwfdb);
+            ImportForum::make()->import($this->gwfdb);
         }
         finally
         {

@@ -6,6 +6,9 @@ use GDO\Core\GDOException;
 use GDO\Date\Time;
 use GDO\Language\GDO_Language;
 use GDO\Country\GDO_Country;
+use GDO\Core\Module_Core;
+use GDO\User\GDO_Permission;
+use GDO\User\GDO_User;
 
 abstract class MethodImport extends Method
 {
@@ -25,8 +28,10 @@ abstract class MethodImport extends Method
         $this->gdodb = Database::instance();
         $this->gwfdb = $gwfdb;
         $this->prefix = Module_ImportGWF3::instance()->cfgDBPrefix();
+        $this->gwfpath = Module_ImportGWF3::instance()->cfgGWF3Path();
         return $this->run();
     }
+    
     
     #################
     ### DB-Switch ###
@@ -34,6 +39,7 @@ abstract class MethodImport extends Method
     private $gdodb;
     private $gwfdb;
     protected $prefix;
+    protected $gwfpath;
     public function gdodb() { Database::$INSTANCE = $this->gdodb; return $this->gdodb; }
     public function gwfdb() { Database::$INSTANCE = $this->gwfdb; return $this->gwfdb; }
     public function connectGWFDB()
@@ -59,7 +65,7 @@ abstract class MethodImport extends Method
      * @throws GDOException
      * @return string
      */
-    public function gwfdate($gwfdate=null)
+    public function gwfdate($gwfdate=null, $default=null)
     {
         $sec = $min = $hour = $day = $mon = $year = 0;
         switch (strlen($gwfdate))
@@ -71,10 +77,15 @@ abstract class MethodImport extends Method
             case 6: $mon = intval(substr($gwfdate, 4, 2), 10);
             case 4: $year = intval(substr($gwfdate, 0, 4), 10);
                 break;
-            case 1: case 0: return null;
+            case 1: case 0: return $default;
             default: throw new GDOException('invalid gwf date: '.$gwfdate);
         }
         return Time::getDate(mktime($hour, $min, $sec, $mon, $day, $year));
+    }
+    
+    public function gwfdatenow()
+    {
+    	return Time::getDate();
     }
     
     public function gwfcountry($id)
@@ -132,5 +143,45 @@ abstract class MethodImport extends Method
     public function gwfip($ip)
     {
         return empty($ip) ? null : inet_ntop($ip);
+    }
+    
+    public function systemID()
+    {
+    	return Module_Core::instance()->cfgSystemUserID();
+    }
+    
+    public function idornull($id)
+    {
+    	return $id > 0 ? $id : null;
+    }
+    
+    public function gidornull($id)
+    {
+    	return GDO_Permission::getById($id) ? $id : null;
+    }
+    
+    public function idordefault($id, $default)
+    {
+    	return $id > 0 ? $id : $default;
+    }
+    
+    public function guestID()
+    {
+    	static $guestID;
+    	if (!$guestID)
+    	{
+    		$guestID = GDO_User::getByName('guest')->getID();
+    	}
+    	return $guestID;
+    }
+    
+    public function uidorguest($uid)
+    {
+    	if ($uid > 0)
+    	{
+    		return GDO_User::getById($uid) ? $uid : $this->guestID(); 
+    	}
+    	return null;
+    	
     }
 }

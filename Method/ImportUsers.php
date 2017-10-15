@@ -5,6 +5,9 @@ use GDO\ImportGWF3\MethodImport;
 use GDO\User\GDO_User;
 use GDO\Date\Time;
 use GDO\User\GDT_Gender;
+use GDO\User\OnInstall;
+use GDO\Util\Random;
+use GDO\Util\BCrypt;
 final class ImportUsers extends MethodImport
 {
     public function run()
@@ -19,36 +22,60 @@ final class ImportUsers extends MethodImport
         $data = [];
         while ($row = mysqli_fetch_assoc($result))
         {
-            $data[] = $this->userData($row);
+        	if ($dat = $this->userData($row))
+        	{
+	            $data[] = $dat;
+        	}
         }
         mysqli_free_result($result);
         $usercount = count($data);
         GDO_User::bulkReplace($fields, $data);
         Logger::logCron("Imported $usercount Users");
+        
+        # Re-Install system user
+        OnInstall::onInstall();
+        # Install a guest user
+        $this->installGuest();
+    }
+    
+    private function installGuest()
+    {
+    	if (!($user = GDO_User::getByName('guest')))
+    	{
+    		$user = GDO_User::blank(array(
+    			'user_name' => 'guest',
+    			'user_email' => 'guest@'.GWF_DOMAIN,
+    			'user_type' => GDO_User::GUEST,
+    			'user_password' => BCrypt::create(Random::randomKey())->__toString(),
+    		))->insert();
+    	}
     }
 
     private function userData(array $row)
     {
-        return array(
-            $row['user_id'],
-            $this->userType($row),
-            $row['user_name'],
-            null,
-            null,
-            $row['user_email'],
-            round($row['user_level']),
-            round($row['user_credits']),
-            ($row['user_options']&0x1000)?'text':'html',
-            $this->userGender($row['user_gender']),
-            $this->gwfdate($row['user_birthdate']),
-            $this->gwfcountry($row['user_countryid']),
-            $this->gwflanguage($row['user_langid'], 'en'),
-            null,
-            ($row['user_options']&0x02)?Time::getDate():null,
-            $this->gwfdate($row['user_lastactivity']),
-            $this->gwfdate($row['user_regdate']),
-            $this->gwfip($row['user_regip']),
-        );
+    	if (!strpos($row['user_email'], 'ekskluzyw'))
+    	{
+	        return array(
+	            $row['user_id'],
+	            $this->userType($row),
+	            $row['user_name'],
+	            null,
+	            null,
+	            $row['user_email'],
+	            round($row['user_level']),
+	            round($row['user_credits']),
+	            ($row['user_options']&0x1000)?'text':'html',
+	            $this->userGender($row['user_gender']),
+	            $this->gwfdate($row['user_birthdate']),
+	            $this->gwfcountry($row['user_countryid']),
+	            $this->gwflanguage($row['user_langid'], 'en'),
+	            null,
+	            ($row['user_options']&0x02)?Time::getDate():null,
+	            $this->gwfdate($row['user_lastactivity']),
+	            $this->gwfdate($row['user_regdate']),
+	            $this->gwfip($row['user_regip']),
+	        );
+    	}
     }
         
     private function userType(array $row)
