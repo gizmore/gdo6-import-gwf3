@@ -5,6 +5,7 @@ use GDO\ImportGWF3\MethodImport;
 use GDO\Core\Logger;
 use GDO\Forum\GDO_ForumBoard;
 use GDO\Forum\GDO_ForumThread;
+use GDO\Forum\GDO_ForumPost;
 
 final class ImportForum extends MethodImport
 {
@@ -13,6 +14,7 @@ final class ImportForum extends MethodImport
 		Logger::logCron("Importing Forum");
 		$this->importBoards();
 		$this->importThreads();
+		$this->importPosts();
 	}
 	
 	##############
@@ -85,7 +87,7 @@ final class ImportForum extends MethodImport
 		$threads->truncate();
 		$this->gdodb()->enableForeignKeyCheck();
 		
-		$threads->bulkInsert($threads->gdoColumns(), $data, 1);
+		$threads->bulkInsert($threads->gdoColumns(), $data);
 		
 		$count = count($data);
 		Logger::logCron("Imported $count forum threads.");
@@ -111,6 +113,30 @@ final class ImportForum extends MethodImport
 	#############
 	### Posts ###
 	#############
+	private function importPosts()
+	{
+		$query = "SELECT * FROM {$this->prefix}forumpost";
+		$result = $this->gwfdb()->queryRead($query);
+		$this->gdodb();
+		$data = [];
+		while ($row = mysqli_fetch_assoc($result))
+		{
+			if ($dat = $this->postRow($row))
+			{
+				$data[] = $dat;
+			}
+		}
+		$posts = GDO_ForumPost::table();
+		$this->gdodb()->disableForeignKeyCheck();
+		$posts->truncate();
+		$this->gdodb()->enableForeignKeyCheck();
+		
+		$posts->bulkInsert($posts->gdoColumns(), $data);
+		
+		$count = count($data);
+		Logger::logCron("Imported $count forum threads.");
+		
+	}
 	
 	
 }

@@ -181,7 +181,7 @@ abstract class MethodImport extends Method
     	{
     		return GDO_User::getById($uid) ? $uid : $this->guestID(); 
     	}
-    	return null;
+    	return $this->guestID();
     	
     }
 }
