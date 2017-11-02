@@ -1,6 +1,6 @@
 <?php
 namespace GDO\ImportGWF3\Method;
-use GDO\Admin\MethodAdmin;
+use GDO\Core\MethodAdmin;
 use GDO\Form\GDT_Form;
 use GDO\Form\MethodForm;
 use GDO\Form\GDT_Submit;
