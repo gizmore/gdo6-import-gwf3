@@ -62,7 +62,7 @@ final class ImportUsers extends MethodImport
 	            null,
 	            null,
 	            $row['user_email'],
-	            round($row['user_level']),
+// 	            round($row['user_level']),
 	            round($row['user_credits']),
 	            ($row['user_options']&0x1000)?'text':'html',
 	            $this->userGender($row['user_gender']),
