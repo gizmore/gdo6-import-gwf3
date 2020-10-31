@@ -38,7 +38,7 @@ final class ImportForum extends MethodImport
 		$boards->truncate();
 		$this->gdodb()->enableForeignKeyCheck();
 		
-		$boards->bulkInsert($boards->gdoColumns(), $data);
+		$boards->bulkInsert($boards->gdoColumnsCache(), $data);
 		
 		$boards->rebuildFullTree();
 		
@@ -87,7 +87,7 @@ final class ImportForum extends MethodImport
 		$threads->truncate();
 		$this->gdodb()->enableForeignKeyCheck();
 		
-		$threads->bulkInsert($threads->gdoColumns(), $data);
+		$threads->bulkInsert($threads->gdoColumnsCache(), $data);
 		
 		$count = count($data);
 		Logger::logCron("Imported $count forum threads.");
@@ -131,7 +131,7 @@ final class ImportForum extends MethodImport
 		$posts->truncate();
 		$this->gdodb()->enableForeignKeyCheck();
 		
-		$posts->bulkInsert($posts->gdoColumns(), $data);
+		$posts->bulkInsert($posts->gdoColumnsCache(), $data);
 		
 		$count = count($data);
 		Logger::logCron("Imported $count forum threads.");

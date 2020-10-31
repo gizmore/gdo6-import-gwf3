@@ -18,7 +18,7 @@ final class ImportUsers extends MethodImport
         $this->gdodb();
 
         # Bulk copy
-        $fields = GDO_User::table()->gdoColumns();
+        $fields = GDO_User::table()->gdoColumnsCache();
         $data = [];
         while ($row = mysqli_fetch_assoc($result))
         {

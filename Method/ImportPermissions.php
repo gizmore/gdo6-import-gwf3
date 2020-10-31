@@ -44,8 +44,8 @@ final class ImportPermissions extends MethodImport
 		mysqli_free_result($result);
 	
 		$this->gdodb();
-		GDO_Permission::bulkReplace($perms->gdoColumns(), $permsData);
-		GDO_Usergroup::bulkReplace($ugrup->gdoColumns(), $ugrupData);
+		GDO_Permission::bulkReplace($perms->gdoColumnsCache(), $permsData);
+		GDO_Usergroup::bulkReplace($ugrup->gdoColumnsCache(), $ugrupData);
 		return count($permsData);
 	}
 	
@@ -68,7 +68,7 @@ final class ImportPermissions extends MethodImport
         mysqli_free_result($result);
         
         $this->gdodb();
-        GDO_UserPermission::bulkReplace($uperm->gdoColumns(), $upermData);
+        GDO_UserPermission::bulkReplace($uperm->gdoColumnsCache(), $upermData);
         
         return count($upermData);
 	}
