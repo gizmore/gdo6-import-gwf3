@@ -10,6 +10,7 @@ use GDO\DB\Database;
 use GDO\ImportGWF3\Module_ImportGWF3;
 use GDO\Core\GDT_Success;
 use GDO\Core\GDT_Response;
+use GDO\UI\GDT_HTML;
 
 final class Admin extends MethodForm
 {
@@ -53,7 +54,7 @@ final class Admin extends MethodForm
         ob_end_clean();
 
         # Done
-        return GDT_Response::makeWith(GDT_Success::withHTML($content))->
+        return GDT_Response::makeWith(GDT_Success::make()->addField(GDT_HTML::withHTML($content)))->
             add($this->message('msg_gwf3_import_finished'))->
             add($this->renderPage());
     }
