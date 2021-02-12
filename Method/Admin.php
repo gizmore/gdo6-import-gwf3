@@ -31,9 +31,9 @@ final class Admin extends MethodForm
     public function createForm(GDT_Form $form)
     {
         $form->addFields(array(
-            GDT_Submit::make('btn_import_gwf3'),
             GDT_AntiCSRF::make(),
         ));
+        $form->actions()->addField(GDT_Submit::make('btn_import_gwf3'));
     }
     
     ##############
