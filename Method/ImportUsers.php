@@ -44,7 +44,7 @@ final class ImportUsers extends MethodImport
     	{
     		$user = GDO_User::blank(array(
     			'user_name' => 'guest',
-    			'user_email' => 'guest@'.GWF_DOMAIN,
+    			'user_email' => 'guest@'.GDO_DOMAIN,
     			'user_type' => GDO_User::GUEST,
     			'user_password' => BCrypt::create(Random::randomKey())->__toString(),
     		))->insert();
