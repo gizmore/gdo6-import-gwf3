@@ -25,7 +25,7 @@ final class Admin extends MethodForm
     public function execute()
     {
         # Normal form but prepend admin navbar
-        return $this->renderNavBar()->add(parent::execute());
+        return $this->renderNavBar()->addField(parent::execute());
     }
 
     public function createForm(GDT_Form $form)
@@ -44,7 +44,7 @@ final class Admin extends MethodForm
         # Try gwf3 conn
         if (!$this->connectGWFDB())
         {
-            return $this->error('err_connect_gwf3_db')->add($this->renderPage());
+            return $this->error('err_connect_gwf3_db')->addField($this->renderPage());
         }
         
         # Call importers

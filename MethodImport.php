@@ -18,7 +18,7 @@ abstract class MethodImport extends Method
     {
         if (!$this->connectGWFDB())
         {
-            return $this->error('err_connect_gwf3_db')->add($this->renderPage());
+            return $this->error('err_connect_gwf3_db')->addField($this->renderPage());
         }
         return $this->run();
     }
