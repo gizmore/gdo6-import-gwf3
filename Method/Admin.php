@@ -55,8 +55,8 @@ final class Admin extends MethodForm
 
         # Done
         return GDT_Response::makeWith(GDT_Success::make()->addField(GDT_HTML::withHTML($content)))->
-            add($this->message('msg_gwf3_import_finished'))->
-            add($this->renderPage());
+            addField($this->message('msg_gwf3_import_finished'))->
+            addField($this->renderPage());
     }
     
     #################
